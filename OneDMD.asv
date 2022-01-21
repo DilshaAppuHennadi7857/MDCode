@@ -23,7 +23,7 @@ C.mu_0 = 1.2566370614e-6;           % vacuum permeability
 C.c = 299792458;                    % speed of light
 C.g = 9.80665;                      % metres (32.1740 ft) per s²
 C.am = 1.66053892e-27;
-C.k = 100;                          % spring constant
+C.k = 0.8;                          % spring constant
 
 MaxX = 0;
 MinX = 0;
@@ -157,10 +157,10 @@ while t < TStop
     end
 
     xpp = xp;
-%     ypp = yp;
+    ypp = yp;
 
     xp = x;
-%     yp = y;
+    yp = y;
 
     c = c + 1;
     t  = t + dt;
@@ -168,9 +168,9 @@ while t < TStop
 
 
     PhiTot(c) = sum(Phi)/2;
-    V2_0 = (Vx(Pty0in).*Vx(Pty0in));
+    V2_0 = (Vx(Pty0in).*Vx(Pty0in)+Vy(Pty0in).*Vy(Pty0in));
     if nAtoms1
-        V2_1 = (Vx(Pty1in).*Vx(Pty1in));
+        V2_1 = (Vx(Pty1in).*Vx(Pty1in)+Vy(Pty1in).*Vy(Pty1in));
     else
         V2_1 = 0;
     end
