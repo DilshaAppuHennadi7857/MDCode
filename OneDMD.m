@@ -73,7 +73,7 @@ Pty1in = AtomType == 1;
 nAtoms0 = sum(Pty0in);
 nAtoms1 = sum(Pty1in);
 
-GetForces(PhiCutoff,LJEpsilon,LJSigma);
+SpringForce();
 Phi0 = sum(Phi) / nAtoms / 2;
 
 V2 = Vx.*Vx + Vy.*Vy;
@@ -120,6 +120,16 @@ while t < TStop
     %     F = m dv/dt
 
     SpringForce();
+    
+    %%
+    %
+    % SpringForce calculates the force of all atoms. Take the forces of the
+    % neighboring two atoms to determine the net acceleration of the atom.
+    % I.e. for each atom, locate the nearest two atoms, then calculate the
+    % net force of the two atoms and use that to determine the acceleration
+    % on the current atom.
+    %
+    %%
 
     % Forward difference
     if Method == 'FD'

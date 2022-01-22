@@ -1,4 +1,5 @@
-                                                                                                                   function AddRectAtomicArray(LAtoms, WAtoms, X0, Y0, VX0, VY0, InitDist, Temp, Type)
+function AddEllipticAtomicArray(LAtoms, WAtoms, X0, Y0, VX0, VY0, InitDist, Temp, Type)
+%AddEllipticAtomicArray Create an elliptic array of atoms
 global C
 global x y AtomSpacing
 global nAtoms
@@ -13,18 +14,23 @@ end
 L = (LAtoms - 1) * AtomSpacing;
 W = (WAtoms - 1) * AtomSpacing;
 
-numAtoms = LAtoms * WAtoms;
+xp(1, :) = linspace(-L, L, 2*LAtoms);
+yp(1, :) = linspace(-W, W, 2*WAtoms);
 
-xp(1, :) = linspace(0, L, LAtoms);
-yp(1, :) = linspace(0, W, WAtoms);
-
-x(nAtoms + 1:nAtoms+LAtoms) = xp-L/2;
-y(nAtoms + 1:nAtoms+LAtoms) = yp(1)-W/2;
-
-for i = 1:WAtoms-1
-    x(nAtoms + i * LAtoms + 1:nAtoms + (i + 1) * LAtoms) = xp - L / 2;
-    y(nAtoms + i * LAtoms + 1:nAtoms + (i + 1) * LAtoms) = yp(i + 1) - W / 2;
+numAtoms = 0;
+for i = 1:2*LAtoms
+    for j = 1:2*WAtoms
+        if (xp(i) / L)^2 + (yp(j) / W)^2 <= 1
+            numAtoms = numAtoms+1;
+            x(nAtoms + numAtoms) = xp(i);
+            y(nAtoms  + numAtoms) = yp(j);
+        else
+            i;
+            j;
+        end
+    end
 end
+
 
 x(nAtoms + 1:nAtoms + numAtoms) = x(nAtoms + 1:nAtoms + numAtoms) + ...
     (rand(1, numAtoms) - 0.5) * AtomSpacing * InitDist + X0;
@@ -51,3 +57,4 @@ Vy(nAtoms + 1:nAtoms + numAtoms) = Vy(nAtoms + 1:nAtoms + numAtoms) - ...
 nAtoms = nAtoms + numAtoms;
 
 end
+

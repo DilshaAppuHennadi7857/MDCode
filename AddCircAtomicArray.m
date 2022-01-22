@@ -24,8 +24,8 @@ for i = 1:2*rad
             x(nAtoms + numAtoms) = xp(i);
             y(nAtoms  + numAtoms) = yp(j);
         else
-            i
-            j
+            i;
+            j;
         end
     end
 end
